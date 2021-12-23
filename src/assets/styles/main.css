@@ -1,0 +1,51 @@
+body {
+    background-image : url(https://pro2-bar-s3-cdn-cf1.myportfolio.com/dd3854db-b247-4fc3-bca9-e0908fef9b5f/979c10b1-1aa3-46d5-b922-ea426ac8ed8a_rw_1920.png?h=79ad3677d33d2b9d6b2cbdefc2443676);
+}
+
+.mainbg {
+height : 100vh;
+background : white;
+}
+#app {
+
+box-sizing: border-box;
+font-family: "nanumsquare";
+margin-top: 60px;
+width: 100%;
+max-width: 460px;
+margin: auto;
+position: relative;
+border-right: 1px solid #eee;
+border-left: 1px solid #eee;
+}
+
+.navbar {
+    padding : 0;
+}
+.nav-image {
+    height : 50px;
+    padding : 0;
+    margin : 0;
+}
+.nav-image img{
+    height : 100%;
+}
+
+.menu {
+    display : flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding : 5px 0;
+}
+
+.menu-block {
+    width : 33%;
+    text-align: center;
+    padding : 3px;
+    border-radius: 5px;
+    background-color : rgb(255, 189, 213);
+}
+
+.menu-block:hover{
+    cursor :pointer;
+}
