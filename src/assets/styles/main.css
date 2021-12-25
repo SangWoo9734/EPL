@@ -1,9 +1,8 @@
-body {
-    background-image : url(https://pro2-bar-s3-cdn-cf1.myportfolio.com/dd3854db-b247-4fc3-bca9-e0908fef9b5f/979c10b1-1aa3-46d5-b922-ea426ac8ed8a_rw_1920.png?h=79ad3677d33d2b9d6b2cbdefc2443676);
-}
+
+/* font-color : rgb(56, 0, 61) */
 
 .mainbg {
-height : 100vh;
+min-height : 100vh;
 background : white;
 }
 #app {
@@ -35,7 +34,7 @@ border-left: 1px solid #eee;
     display : flex;
     flex-direction: row;
     justify-content: space-between;
-    padding : 5px 0;
+    padding : 5px;
 }
 
 .menu-block {
@@ -43,9 +42,14 @@ border-left: 1px solid #eee;
     text-align: center;
     padding : 3px;
     border-radius: 5px;
-    background-color : rgb(255, 189, 213);
 }
-
 .menu-block:hover{
     cursor :pointer;
+}
+
+.team-logo {
+    width : 45px;
+    height : 45px;
+    padding : 5px;
+    margin-right : 5px;
 }
