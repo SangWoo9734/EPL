@@ -111,7 +111,7 @@ export default {
           params: {season: this.season, league: '39'},
           headers: {
             'x-rapidapi-host': 'api-football-beta.p.rapidapi.com',
-            'x-rapidapi-key': 'b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e'
+            'x-rapidapi-key': ''
           }
         };
 
