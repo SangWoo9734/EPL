@@ -1,27 +1,27 @@
 <template>
-  <div class="board-season flex mt-3 mb-3">
+  <div class="board-season flex mt-2 mb-2">
     <button @click="this.season = changeSeason(this.season - 1)">&lt;</button>
     <p>{{ this.season }} - {{this.season % 100 + 1}}</p>
     <button @click="this.season = changeSeason(this.season + 1)">&gt;</button>
   </div>
 
-  <div class="board-team box flex">
-    <p class="text-center" style="width:15%">RANK</p>
+  <div class="board-team board-stand box pl-2 pr-2 flex">
+    <p class="text-center" style="width:15%">#</p>
     <p style="width:70%">TEAM</p>
-    <p class="text-center" style="width:15%">POINT</p>
+    <p class="text-center" style="width:15%">PTS</p>
   </div>
   
   
   <div class="accordion accordion-flush board-team box" id="accordionFlushExample">
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="flush-heading-1">
-        <button class="accordion-button collapsed board-team-info" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-1" aria-expanded="false" aria-controls="flush-collapse-1">
-          <p class="text-center" style="width:15%">1</p>
-          <p style="width:70%"><img src="https://media.api-sports.io/football/teams/50.png" alt="" style="height:40px; width:40px;">Manchester City</p>
-          <p class="text-center" style="width:15%">44</p>
+    <div class="accordion-item" v-for='(r, i) in data' :key="i">
+      <h2 class="accordion-header" :id="`flush-heading-${r['rank']}`">
+        <button class="accordion-button collapsed board-team-info" type="button" data-bs-toggle="collapse" :data-bs-target="`#flush-collapse-${r['rank']}`" aria-expanded="false" :aria-controls="`flush-collapse-${r['rank']}`">
+          <p class="text-center" style="width:15%">{{r['rank']}}</p>
+          <p style="width:70%"><img :src="r['team']['logo']" alt="" style="height:40px; width:40px;">{{r['team']['name']}}</p>
+          <p class="text-center" style="width:15%">{{r['points']}} <span style="color:gray; font-size: 13px;">pts</span></p>
         </button>
       </h2>
-      <div id="flush-collapse-1" class="accordion-collapse collapse" aria-labelledby="flush-heading-1" data-bs-parent="#accordionFlushExample">
+      <div :id="`flush-collapse-${r['rank']}`" class="accordion-collapse collapse" :aria-labelledby="`flush-heading-${r['rank']}`" data-bs-parent="#accordionFlushExample">
         <table class="accordion-body">
           <tr>
             <th>P</th>
@@ -34,50 +34,15 @@
             <th>Recent 5</th>
           </tr>
           <tr>
-            <td>18</td>
-            <td>14</td>
-            <td>2</td>
-            <td>2</td>
-            <td>44</td>
-            <td>9</td>
-            <td>+35</td>
+            <td>{{r['all']['played']}}</td>
+            <td>{{r['all']['win']}}</td>
+            <td>{{r['all']['draw']}}</td>
+            <td>{{r['all']['lose']}}</td>
+            <td>{{r['all']['goals']['for']}}</td>
+            <td>{{r['all']['goals']['against']}}</td>
+            <td>{{r['all']['goalsDiff']}}</td>
             <td class="recent-five flex">
-              <p v-for="i in 5" :key=i style="background:green">W</p>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="flush-heading-2">
-        <button class="accordion-button collapsed board-team-info" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-2" aria-expanded="false" aria-controls="flush-collapse-2">
-          <p class="text-center" style="width:15%">2</p>
-          <p style="width:70%"><img src="https://media.api-sports.io/football/teams/40.png" alt="" style="height:40px; width:40px;">Liverpool</p>
-          <p class="text-center" style="width:15%">41</p>
-        </button>
-      </h2>
-      <div id="flush-collapse-2" class="accordion-collapse collapse" aria-labelledby="flush-heading-2" data-bs-parent="#accordionFlushExample">
-        <table class="accordion-body">
-          <tr>
-            <th>P</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-            <th>Recent 5</th>
-          </tr>
-          <tr>
-            <td>18</td>
-            <td>12</td>
-            <td>5</td>
-            <td>1</td>
-            <td>50</td>
-            <td>15</td>
-            <td>+35</td>
-            <td class="recent-five flex">
-              <p v-for="i in 5" :key=i style="background:green">W</p>
+              <p v-for="i in r['form']" :key=i :style="`background:${wdl(i)}`">{{i}}</p>
             </td>
           </tr>
         </table>
@@ -111,16 +76,25 @@ export default {
           params: {season: this.season, league: '39'},
           headers: {
             'x-rapidapi-host': 'api-football-beta.p.rapidapi.com',
-            'x-rapidapi-key': ''
+            'x-rapidapi-key': 'b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e'
           }
         };
 
-        axios.request(options).then(function (response) {
-          console.log(response.data.response[0].league);
+        axios.request(options).then((response) => {
+          this.data = response.data.response[0].league.standings[0]
         }).catch(function (error) {
           console.error(error);
         });
       },
+      wdl(x) {
+      if (x == "W") {
+        return "#13CF00";
+      } else if (x == "L") {
+        return "#D81920";
+      } else {
+        return "#76766F";
+      }
+    },
     },
     created() {
       // this.getBoard();
@@ -175,9 +149,12 @@ tr {
 }
 .board-team {
   width : 100%;
+  padding : 0 5px;
 }
 .board-team-info {
   width : 100%;
+  font-size : 17px;
+  font-weight : bold;
 }
 
 .board-team-info img{
@@ -185,6 +162,13 @@ tr {
   height : 40px;
   padding : 5px;
   margin-right : 10px;
+}
+
+.board-stand {
+  height : 36px;
+  background : #F2F2F2;
+  padding-top : 6px;
+  font-weight : bold;
 }
 
 .accordion-header, .accordion-item, .accordion-body {
@@ -208,7 +192,7 @@ tr {
   border-radius : 50%;
   color : white;
   font-weight : bold;
-  padding-top : 2px;
+  padding-top : 1px;
   font-size : 12px;
 }
 </style>

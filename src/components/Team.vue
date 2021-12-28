@@ -19,7 +19,7 @@
         <img :src="`${team[detail]['team']['logo']}`" alt="" class="" />
       </div>
       <div class="team-detail-text text-center">
-        <h3>{{ team[detail]['team']["name"] }}</h3>
+        <p class="team-name">{{ team[detail]['team']["name"] }}</p>
         <p>Founded - {{ team[detail]['team']["founded"] }}</p>
         <br />
         <p>{{ team[detail]['team']["ven_name"] }} / {{ team[detail]['team']["ven_city"] }}</p>
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="team-recent">
-      <!-- <div class="team-recent-detail">
+      <div class="team-recent-detail">
         <p class="team-desc box">Status</p>
         <div class="team-grade flex">
           <p>{{ fixtures[0] }} <span>G</span></p>
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="team-recent-detail">
-        <p class="team-desc box">최근 경기</p>
+        <p class="team-desc box">Recent Games</p>
         <div class="team-recent-play flex">
           <p v-for="l in form" :key="l" :style="`background : ${wdl(l)}`">
             {{ l }}
@@ -54,7 +54,7 @@
           <p>{{ l.played }}</p>
         </div>
         <div style="clear: both"></div>
-      </div> -->
+      </div>
       <div class="team-recent-detail">
         <div class="team-desc box">Players</div>
         <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 import teamPlayer from "../assets/data/final.json";
 
 export default {
@@ -106,49 +106,49 @@ export default {
   data() {
     return {
       detail: 33,
-      form: [],
-      lineups: {},
-      fixtures: [],
+      form: [1, 2, 3, 4],
+      lineups: {'a' : 1},
+      fixtures: [0, 0, 0, 0],
       cleanSheet: 0,
-      goals: [],
+      goals: [0, 0],
       team: teamPlayer
     };
   },
   methods: {
-    // setData() {
-    //   var options = {
-    //     method: "GET",
-    //     url: "https://api-football-beta.p.rapidapi.com/teams/statistics",
-    //     params: { team: this.detail, season: "2021", league: "39" },
-    //     headers: {
-    //       "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
-    //       "x-rapidapi-key":
-    //         "b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e",
-    //     },
-    //   };
+    setData() {
+      var options = {
+        method: "GET",
+        url: "https://api-football-beta.p.rapidapi.com/teams/statistics",
+        params: { team: this.detail, season: "2021", league: "39" },
+        headers: {
+          "x-rapidapi-host": "api-football-beta.p.rapidapi.com",
+          "x-rapidapi-key":
+            "b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e",
+        },
+      };
 
-    //   axios
-    //     .request(options)
-    //     .then((response) => {
-    //       let result = response.data.response;
-    //       this.form = result.form.split("").reverse();
-    //       this.lineups = result.lineups;
-    //       this.fixtures = [
-    //         result.fixtures.played.total,
-    //         result.fixtures.wins.total,
-    //         result.fixtures.draws.total,
-    //         result.fixtures.loses.total,
-    //       ];
-    //       this.cleanSheet = result.clean_sheet.total;
-    //       this.goals = [
-    //         result.goals.for.total.total,
-    //         result.goals.against.total.total,
-    //       ];
-    //     })
-    //     .catch(function (error) {
-    //       console.error(error);
-    //     });
-    // },
+      axios
+        .request(options)
+        .then((response) => {
+          let result = response.data.response;
+          this.form = result.form.split("").reverse().slice(0, 10);
+          this.lineups = result.lineups;
+          this.fixtures = [
+            result.fixtures.played.total,
+            result.fixtures.wins.total,
+            result.fixtures.draws.total,
+            result.fixtures.loses.total,
+          ];
+          this.cleanSheet = result.clean_sheet.total;
+          this.goals = [
+            result.goals.for.total.total,
+            result.goals.against.total.total,
+          ];
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
     wdl(x) {
       if (x == "W") {
         return "#13CF00";
@@ -167,9 +167,8 @@ export default {
   },
   created() {
     // this.setData();
-    console.log(this.team);
   },
-  update() {
+  beforeUpdate(){
     // this.setData();
   },
 };
@@ -238,7 +237,8 @@ export default {
   padding: 10px;
 }
 
-.team-detail-text h3 {
+.team-detail-text .team-name {
+  font-size : 25px;
   font-weight: bold;
 }
 
