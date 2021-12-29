@@ -82,7 +82,10 @@ export default {
     },
     
     created() {
-      this.getRank();
+      // this.getRank();
+    },
+    updated() {
+      // this.getRank();
     },
 
 }

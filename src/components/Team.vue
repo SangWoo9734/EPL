@@ -4,7 +4,7 @@
       v-for="t in team"
       :key="t"
       class="team-thumb-box"
-      @click="detail = t['team']['id']"
+      @click="detail = t['team']['id']; setData()"
     >
       <div class="team-thumb-image mb-1">
         <img :src="`${t['team']['logo']}`" alt="" class="" />
@@ -166,10 +166,7 @@ export default {
     }
   },
   created() {
-    // this.setData();
-  },
-  beforeUpdate(){
-    // this.setData();
+    this.setData();
   },
 };
 </script>
@@ -331,5 +328,10 @@ export default {
 .team-player-status {
   text-align: right;
   font-weight: bold;
+}
+
+.team-info {
+  height : 750px;
+  overflow: scroll;
 }
 </style>

@@ -99,9 +99,9 @@ export default {
     created() {
       // this.getBoard();
     },
-    // updated() {
-    //   this.getBorad();
-    // }
+    updated() {
+      // this.getBorad();
+    }
 }
 </script>
 
