@@ -1,8 +1,8 @@
 <template>
     <div class="board-season flex mt-2 mb-2">
-        <button @click="this.season = changeSeason(this.season - 1)">&lt;</button>
-        <p>{{ this.season }} - {{this.season % 100 + 1}}</p>
-        <button @click="this.season = changeSeason(this.season + 1)">&gt;</button>
+        <button @click="this.season = this.season - 1">&lt;</button>
+        <p style="padding-top: 2px;">{{ this.season }} - {{this.season % 100 + 1}}</p>
+        <button @click="this.season = this.season + 1">&gt;</button>
     </div>
 
     <div class="menu">
@@ -14,8 +14,8 @@
       <table style='width : 100%'>
         <tr style='font-size : 17px;'>
             <th style="width:15%">#</th>
-            <th style="width:70%; text-align:left;">PLAYER</th>
-            <th style="width:15%">{{state == 'topscorers' ? 'GOALS' : 'ASSISTS'}}</th>
+            <th style="width:67%; text-align:left;">PLAYER</th>
+            <th style="width:18%">{{state == 'topscorers' ? 'GOALS' : 'ASSISTS'}}</th>
         </tr>
         <tr class='board-personal' v-for="(p, i) in (state == 'topscorers' ?  topscorers : topassists)" :key=i>
           <td class='board-personal-rs'>{{i + 1}}</td>
@@ -92,7 +92,9 @@ export default {
 </script>
 
 <style>
-
+tr th {
+  padding : 5px 15px;
+}
 .board-personal {
   font-size : 15px;
 }

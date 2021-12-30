@@ -14,17 +14,20 @@
   </div>
 
   <div class="team-info">
-    <div class="team-detail flex">
-      <div class="team-detail-image">
-        <img :src="`${team[detail]['team']['logo']}`" alt="" class="" />
+    <div class="team-detail" :style="`background-image : url(${team[detail]['team']['ven_image']})`">
+      <div class="team-detail-blur flex">
+        <div class="team-detail-image">
+          <img :src="`${team[detail]['team']['logo']}`" alt="" class="" />
+        </div>
+        <div class="team-detail-text text-center">
+          <p class="team-name">{{ team[detail]['team']["name"] }}</p>
+          <p>Founded - {{ team[detail]['team']["founded"] }}</p>
+          <br />
+          <p>{{ team[detail]['team']["ven_name"] }} / {{ team[detail]['team']["ven_city"] }}</p>
+          <p>Capacity - {{ team[detail]['team']["capacity"] }} seats</p>
+        </div>
       </div>
-      <div class="team-detail-text text-center">
-        <p class="team-name">{{ team[detail]['team']["name"] }}</p>
-        <p>Founded - {{ team[detail]['team']["founded"] }}</p>
-        <br />
-        <p>{{ team[detail]['team']["ven_name"] }} / {{ team[detail]['team']["ven_city"] }}</p>
-        <p>Capacity - {{ team[detail]['team']["capacity"] }} seats</p>
-      </div>
+      
     </div>
     <div class="team-recent">
       <div class="team-recent-detail">
@@ -42,8 +45,8 @@
       <div class="team-recent-detail">
         <p class="team-desc box">Recent Games</p>
         <div class="team-recent-play flex">
-          <p v-for="l in form" :key="l" :style="`background : ${wdl(l)}`">
-            {{ l }}
+          <p v-for="(l, i) in form" :key="i" :style="`background : ${wdl(l)}`">
+            {{ l }} 
           </p>
         </div>
       </div>
@@ -106,7 +109,7 @@ export default {
   data() {
     return {
       detail: 33,
-      form: [1, 2, 3, 4],
+      form: [],
       lineups: {'a' : 1},
       fixtures: [0, 0, 0, 0],
       cleanSheet: 0,
@@ -131,7 +134,8 @@ export default {
         .request(options)
         .then((response) => {
           let result = response.data.response;
-          this.form = result.form.split("").reverse().slice(0, 10);
+          this.form = result.form.split('').reverse().slice(0, 10);
+          // console.log(this.form.split('').reverse().slice(0, 10));
           this.lineups = result.lineups;
           this.fixtures = [
             result.fixtures.played.total,
@@ -166,7 +170,7 @@ export default {
     }
   },
   created() {
-    this.setData();
+    // this.setData();
   },
 };
 </script>
@@ -177,11 +181,12 @@ export default {
 }
 .team-thumb {
   width: 100%;
-  overflow-x: scroll;
+  overflow: scroll;
 }
 
 .team-thumb-box {
   display: flex;
+  width : 300%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -221,7 +226,8 @@ export default {
 .team-detail {
   width: 100%;
   height: 200px;
-  align-items: center;
+  background-position: center center;
+
 }
 
 .team-detail-text {
@@ -243,6 +249,12 @@ export default {
   height: fit-content;
 }
 
+.team-detail-blur {
+  height : 100%;
+  align-items: center;
+  background :#ffffff5c
+}
+
 .team-detail-image {
   width: 40%;
   padding-left: 15px;
@@ -255,7 +267,7 @@ export default {
 .team-recent-detail {
   margin: 10px 0;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .team-desc {
   padding-left: 15px;
@@ -267,6 +279,7 @@ export default {
 }
 .team-grade,
 .team-recent-play {
+  font-weight: bold;
   justify-content: space-between;
   padding: 0 20px;
   font-size: 18px;
@@ -278,8 +291,9 @@ export default {
 }
 .team-recent-play p {
   text-align: center;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
+  padding : 1px;
   font-size: 15px;
   font-weight: bold;
   color: white;

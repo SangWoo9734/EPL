@@ -1,7 +1,7 @@
 <template>
   <div class="board-season flex mt-2 mb-2">
     <button @click="this.season = changeSeason(this.season - 1)">&lt;</button>
-    <p>{{ this.season }} - {{this.season % 100 + 1}}</p>
+    <p style="padding-top: 2px;">{{ this.season }} - {{this.season % 100 + 1}}</p>
     <button @click="this.season = changeSeason(this.season + 1)">&gt;</button>
   </div>
 

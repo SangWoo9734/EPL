@@ -1,7 +1,7 @@
 <template>
   <div class="board-season flex mt-2 mb-2">
     <button @click="setMonth(this.month - 1)">&lt;</button>
-    <p>{{ this.year + '-' + this.month }}</p>
+    <p style="padding-top: 2px;">{{ this.year + '-' + this.month }}</p>
     <button @click="setMonth(this.month + 1)">&gt;</button>
   </div>
   
@@ -109,12 +109,11 @@ export default {
         axios.request(options).then((response) => {
           this.schedule = response.data.response
           this.sortSchedule();
-          console.log(this.schedule);
         }).catch(function (error) {
           console.error(error);
         });
       },
-      getNextMatch() {
+      setNextMatch() {
         var options = {
           method: 'GET',
           url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
@@ -127,7 +126,6 @@ export default {
 
         axios.request(options).then((response) => {
           this.next = response.data.response;
-          console.log(typeof response.data.response[0]['fixture']['date'])
         }).catch(function (error) {
           console.error(error);
         });
@@ -155,7 +153,11 @@ export default {
     },
 
     created() {
-      // this.setSchedule();
+      this.setSchedule();
+      this.setNextMatch();
+    },
+    updated() {
+      this.setSchedule();
     }
 }
 </script>
@@ -238,7 +240,7 @@ export default {
 }
 
 .fixture-result-board {
-  height : 490px;
+  height : 465px;
   overflow : scroll;
 }
 
