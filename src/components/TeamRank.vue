@@ -1,14 +1,15 @@
 <template>
   <div class="board-season flex mt-2 mb-2">
-    <button @click="this.season = changeSeason(this.season - 1)">&lt;</button>
+    <button @click="this.season -= 1">&lt;</button>
     <p style="padding-top: 2px;">{{ this.season }} - {{this.season % 100 + 1}}</p>
-    <button @click="this.season = changeSeason(this.season + 1)">&gt;</button>
+    <button @click="this.season += 1">&gt;</button>
   </div>
 
   <div class="board-team board-stand box pl-2 pr-2 flex">
     <p class="text-center" style="width:15%">#</p>
-    <p style="width:70%">TEAM</p>
-    <p class="text-center" style="width:15%">PTS</p>
+    <p style="width:60%">TEAM</p>
+    <p class="text-center" style="width:13%">Played</p>
+    <p class="text-center" style="width:12%">PTS</p>
   </div>
   
   
@@ -17,8 +18,12 @@
       <h2 class="accordion-header" :id="`flush-heading-${r['rank']}`">
         <button class="accordion-button collapsed board-team-info" type="button" data-bs-toggle="collapse" :data-bs-target="`#flush-collapse-${r['rank']}`" aria-expanded="false" :aria-controls="`flush-collapse-${r['rank']}`">
           <p class="text-center" style="width:15%">{{r['rank']}}</p>
-          <p style="width:70%"><img :src="r['team']['logo']" alt="" style="height:40px; width:40px;">{{r['team']['name']}}</p>
-          <p class="text-center" style="width:15%">{{r['points']}} <span style="color:gray; font-size: 13px;">pts</span></p>
+          <div class='flex' style="width:70%">
+            <img :src="r['team']['logo']" alt="" style="height:40px; width:40px;">
+            <p style="padding-top : 10px">{{r['team']['name']}}</p>
+          </div>
+          <p class="text-center" style="width:15%">{{r['all']['played']}} <span style="color:gray; font-size: 13px;"></span></p>
+          <p class="text-center" style="width:15%; font-weight:bold;">{{r['points']}} <span style="color:gray; font-size: 13px;">pts</span></p>
         </button>
       </h2>
       <div :id="`flush-collapse-${r['rank']}`" class="accordion-collapse collapse" :aria-labelledby="`flush-heading-${r['rank']}`" data-bs-parent="#accordionFlushExample">
@@ -63,12 +68,6 @@ export default {
       }
     },
     methods : {
-      changeSeason(x) {
-        let recent = new Date();
-        let recentYear = recent.getMonth() < 7 ? recent.getFullYear() - 1 : recent.getFullYear();
-        
-        return x > recentYear ? recentYear : x;
-      },
       getBoard() {
         let options = {
           method: 'GET',
@@ -97,10 +96,10 @@ export default {
     },
     },
     created() {
-      // this.getBoard();
+      this.getBoard();
     },
     updated() {
-      // this.getBorad();
+      this.getBorad();
     }
 }
 </script>
@@ -122,6 +121,7 @@ tr {
 .flex {
   display : flex;
   flex-direction: row;
+  align-self: center;
 }
 .board-season {
   justify-content: center;
@@ -129,7 +129,7 @@ tr {
 .board-season * {
   margin : 0 10px;
   font-size : 20px;
-  font-weight : bolder;
+  font-weight : bold;
 }
 
 .board-season button {
@@ -151,10 +151,9 @@ tr {
   width : 100%;
   padding : 0 5px;
 }
+
 .board-team-info {
-  width : 100%;
   font-size : 17px;
-  font-weight : bold;
 }
 
 .board-team-info img{

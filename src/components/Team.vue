@@ -135,7 +135,6 @@ export default {
         .then((response) => {
           let result = response.data.response;
           this.form = result.form.split('').reverse().slice(0, 10);
-          // console.log(this.form.split('').reverse().slice(0, 10));
           this.lineups = result.lineups;
           this.fixtures = [
             result.fixtures.played.total,
@@ -170,7 +169,7 @@ export default {
     }
   },
   created() {
-    // this.setData();
+    this.setData();
   },
 };
 </script>
