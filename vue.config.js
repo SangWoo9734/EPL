@@ -1,4 +1,4 @@
 module.exports = {
     publicPath : '/EPL',
-    outputDir : 'docs',
+    outputDir : 'docs', 
 }
