@@ -202,6 +202,7 @@ export default {
 .fixture-board>div p {
   text-align: center;
   font-weight : bold;
+  font-size : 18px;
 }
 
 .fixture-board .fixture-board-venue {
@@ -232,7 +233,7 @@ export default {
   background : rgb(56, 0, 61);
   width : 30px;
   height : 30px;
-  font-size: 20px;
+  border-radius : 5px;
   color : white;
   margin : 0 5px;
 }

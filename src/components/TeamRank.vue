@@ -7,9 +7,9 @@
 
   <div class="board-team board-stand box pl-2 pr-2 flex">
     <p class="text-center" style="width:15%">#</p>
-    <p style="width:60%">TEAM</p>
-    <p class="text-center" style="width:13%">Played</p>
-    <p class="text-center" style="width:12%">PTS</p>
+    <p style="width:55%">TEAM</p>
+    <p class="text-center" style="width:15%">G</p>
+    <p class="text-center" style="width:15%">PTS</p>
   </div>
   
   
@@ -18,7 +18,7 @@
       <h2 class="accordion-header" :id="`flush-heading-${r['rank']}`">
         <button class="accordion-button collapsed board-team-info" type="button" data-bs-toggle="collapse" :data-bs-target="`#flush-collapse-${r['rank']}`" aria-expanded="false" :aria-controls="`flush-collapse-${r['rank']}`">
           <p class="text-center" style="width:15%">{{r['rank']}}</p>
-          <div class='flex' style="width:70%">
+          <div class='flex' style="width:55%">
             <img :src="r['team']['logo']" alt="" style="height:40px; width:40px;">
             <p style="padding-top : 10px">{{r['team']['name']}}</p>
           </div>
@@ -97,12 +97,10 @@ export default {
     },
     created() {
       this.getBoard();
-      console.log(1);
     },
     watch : {
       season : function() {
         this.getBoard();
-        console.log(2);
       }
     }
 }

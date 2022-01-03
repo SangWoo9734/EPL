@@ -15,12 +15,11 @@
         <tr style='font-size : 17px;'>
             <th style="width:15%">#</th>
             <th style="width:67%; text-align:left;">PLAYER</th>
-            <th style="width:18%">{{state == 'topscorers' ? 'GOALS' : 'ASSISTS'}}</th>
+            <th style="width:18%">{{state == 'topscorers' ? 'G' : 'A'}}</th>
         </tr>
         <tr class='board-personal' v-for="(p, i) in (state == 'topscorers' ?  topscorers : topassists)" :key=i>
           <td class='board-personal-rs'>{{i + 1}}</td>
           <td class='board-personal-info flex'>
-              <img :src="`${p['statistics'][0]['team']['logo']}`" alt="">
               <img :src="`${p['player']['photo']}`" alt="">
               <div>
                   <p class='board-personal-name'>{{p['player']['name']}}</p>
@@ -83,12 +82,10 @@ export default {
     
     created() {
       this.getRank();
-      console.log(1);
     },
     watch : {
       season : function() {
         this.getRank();
-        console.log(2);
       }
     }
 
@@ -104,13 +101,14 @@ tr th {
 }
 
 .board-personal-rs {
-    width : 15%;
+    width : 10%;
 }
 
 .board-personal-info {
+    margin : 0px;
     padding : 5px;
     justify-content: center;
-    align-self: center
+    align-items: center;
 }
 
 .board-personal-info div{
@@ -121,6 +119,7 @@ tr th {
 .board-personal-info img{
     border-radius: 50%;
     width : 60px;
+    height : 60px;
     padding : 5px;
 }
 .board-personal-name {
