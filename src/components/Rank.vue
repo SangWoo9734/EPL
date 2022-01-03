@@ -33,4 +33,8 @@ export default {
     padding : 3px;
 }
 
+.board-menu:hover {
+    cursor : pointer;
+}
+
 </style>

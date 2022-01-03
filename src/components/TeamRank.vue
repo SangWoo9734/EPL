@@ -47,7 +47,7 @@
             <td>{{r['all']['goals']['against']}}</td>
             <td>{{r['all']['goalsDiff']}}</td>
             <td class="recent-five flex">
-              <p v-for="i in r['form']" :key=i :style="`background:${wdl(i)}`">{{i}}</p>
+              <p v-for="(p, i) in r['form']" :key=i :style="`background:${wdl(p)}`">{{p}}</p>
             </td>
           </tr>
         </table>
@@ -97,9 +97,13 @@ export default {
     },
     created() {
       this.getBoard();
+      console.log(1);
     },
-    updated() {
-      this.getBorad();
+    watch : {
+      season : function() {
+        this.getBoard();
+        console.log(2);
+      }
     }
 }
 </script>

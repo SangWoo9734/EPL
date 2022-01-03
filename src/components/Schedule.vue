@@ -28,8 +28,8 @@
   
   <div class="fixture-menu mt-2">RESULTS</div>
   <div class="fixture-result-board">
-    <div class="fixture-container" v-for="(m,i) in schedule" :key="i">
-      <div v-if="checkSameDate(new Date(m['fixture']['date']).toDateString())" class="fixture-date box">{{new Date(m['fixture']['date']).toDateString()}}</div>
+    <div class="fixture-container" v-for="(m,i) in schedule" :key="i" >
+      <div v-if="(checkSameDate(new Date(m['fixture']['date']).toDateString())) && (m['fixture']['status']['short'] === 'FT')" class="fixture-date box">{{new Date(m['fixture']['date']).toDateString()}}</div>
       <div class="fixture-list flex">
         <div class="fixture-team flex">
           <img :src="m['teams']['home']['logo']" alt="" class="team-logo">
@@ -84,6 +84,7 @@ export default {
         }
       },
       setSchedule() {
+
         if ([1, 3, 5, 7, 8, 10, 12].includes( this.month ))
           this.day = 31;
         else if (this.month == 2)
@@ -91,14 +92,15 @@ export default {
           else this.day = 28;
         else this.day = 30
 
+
         var options = {
           method: 'GET',
           url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
           params: {
             league: '39',
             season: this.month <= 6 ? this.year-1 : this.year,
-            from: this.year + '-' + this.month + '-01',
-            to: this.year + '-' + this.month + '-' + this.day
+            from: this.month > 10 ? this.year + '-' + this.month + '-01' : this.year + '-0' + this.month + '-01',
+            to: this.month > 10 ? this.year + '-' + this.month + '-01' : this.year + '-0' + this.month + '-' + this.day
             },
           headers: {
             'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
@@ -107,8 +109,12 @@ export default {
         };
 
         axios.request(options).then((response) => {
-          this.schedule = response.data.response
+          response.data.response.forEach((item) => {
+            if (item.fixture.status.short == 'FT')
+              return this.schedule.push(item)
+          })
           this.sortSchedule();
+
         }).catch(function (error) {
           console.error(error);
         });
@@ -156,8 +162,11 @@ export default {
       this.setSchedule();
       this.setNextMatch();
     },
-    updated() {
-      this.setSchedule();
+
+    watch : {
+      month : function() {
+        this.setSchedule();
+      }
     }
 }
 </script>

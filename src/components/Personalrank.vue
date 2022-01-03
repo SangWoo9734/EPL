@@ -83,10 +83,14 @@ export default {
     
     created() {
       this.getRank();
+      console.log(1);
     },
-    updated() {
-      this.getRank();
-    },
+    watch : {
+      season : function() {
+        this.getRank();
+        console.log(2);
+      }
+    }
 
 }
 </script>
