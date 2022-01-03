@@ -15,7 +15,7 @@
         <tr style='font-size : 17px;'>
             <th style="width:15%">#</th>
             <th style="width:67%; text-align:left;">PLAYER</th>
-            <th style="width:18%">{{state == 'topscorers' ? 'G' : 'A'}}</th>
+            <th style="width:18%">{{state == 'topscorers' ? 'GOAL' : 'ASSIST'}}</th>
         </tr>
         <tr class='board-personal' v-for="(p, i) in (state == 'topscorers' ?  topscorers : topassists)" :key=i>
           <td class='board-personal-rs'>{{i + 1}}</td>
