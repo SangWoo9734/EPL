@@ -17,12 +17,12 @@
     <div class="accordion-item" v-for='(r, i) in data' :key="i">
       <h2 class="accordion-header" :id="`flush-heading-${r['rank']}`">
         <button class="accordion-button collapsed board-team-info" type="button" data-bs-toggle="collapse" :data-bs-target="`#flush-collapse-${r['rank']}`" aria-expanded="false" :aria-controls="`flush-collapse-${r['rank']}`">
-          <p class="text-center" style="width:15%">{{r['rank']}}</p>
+          <p class="text-center" style="width:15%; font-weight:bold">{{r['rank']}}</p>
           <div class='flex' style="width:55%">
-            <img :src="r['team']['logo']" alt="" style="height:40px; width:40px;">
-            <p style="padding-top : 10px">{{r['team']['name']}}</p>
+            <img :src="r['team']['logo']" alt="">
+            <p style='font-weight:bold'>{{r['team']['name']}}</p>
           </div>
-          <p class="text-center" style="width:15%">{{r['all']['played']}} <span style="color:gray; font-size: 13px;"></span></p>
+          <p class="text-center" style="width:15%">{{r['all']['played']}}</p>
           <p class="text-center" style="width:15%; font-weight:bold;">{{r['points']}} <span style="color:gray; font-size: 13px;">pts</span></p>
         </button>
       </h2>
@@ -45,7 +45,7 @@
             <td>{{r['all']['lose']}}</td>
             <td>{{r['all']['goals']['for']}}</td>
             <td>{{r['all']['goals']['against']}}</td>
-            <td>{{r['all']['goalsDiff']}}</td>
+            <td>{{r['all']['goals']['for'] - r['all']['goals']['against']}}</td>
             <td class="recent-five flex">
               <p v-for="(p, i) in r['form']" :key=i :style="`background:${wdl(p)}`">{{p}}</p>
             </td>
@@ -123,7 +123,7 @@ tr {
 .flex {
   display : flex;
   flex-direction: row;
-  align-self: center;
+  align-items: center;
 }
 .board-season {
   justify-content: center;
@@ -159,9 +159,9 @@ tr {
 }
 
 .board-team-info img{
-  width : 40px;
-  height : 40px;
-  padding : 5px;
+  width : 45px;
+  height : 45px;
+  padding : 3px;
   margin-right : 10px;
 }
 

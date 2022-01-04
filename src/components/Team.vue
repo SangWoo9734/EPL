@@ -316,6 +316,7 @@ export default {
 .team-player-image {
   width : 13%;
   border-radius: 50%;
+  padding : 3px;
 }
 .team-player-detail {
   align-items: center;
@@ -344,7 +345,7 @@ export default {
 }
 
 .team-info {
-  height : 750px;
+  height : 720px;
   overflow: scroll;
 }
 </style>

@@ -245,7 +245,7 @@ export default {
 }
 
 .fixture-next-board {
-  height : 250px;
+  height : 200px;
   overflow : scroll;
 }
 

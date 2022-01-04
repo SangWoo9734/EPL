@@ -118,9 +118,9 @@ tr th {
 }
 .board-personal-info img{
     border-radius: 50%;
-    width : 60px;
-    height : 60px;
-    padding : 5px;
+    width : 55px;
+    height : 55px;
+    padding : 3px;
 }
 .board-personal-name {
   font-size: 17px;
