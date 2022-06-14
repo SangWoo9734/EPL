@@ -47,9 +47,6 @@ export default {
 	props: {
 		nextSchedule: { type: Array, default: null },
 	},
-	created() {
-		console.log(this.nextSchedule.length);
-	},
 };
 </script>
 

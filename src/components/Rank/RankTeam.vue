@@ -112,7 +112,6 @@ export default {
 	created() {
 		getTeamRanking(this.season).then(response => {
 			this.boardData = response;
-			console.log(this.boardData);
 		});
 	},
 	watch: {

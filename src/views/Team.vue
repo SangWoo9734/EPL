@@ -80,7 +80,6 @@ export default {
 				.slice(0, 10)
 				.join('');
 			this.formationInfo = response.lineups;
-			console.log(this.recentResult);
 			this.fixtures = [
 				response.fixtures.played.total,
 				response.fixtures.wins.total,
