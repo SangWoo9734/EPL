@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { getTeamRanking } from '../api/index';
+import { getTeamRanking } from '../../api/index';
 
 export default {
 	name: 'TeamRank',

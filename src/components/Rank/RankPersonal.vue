@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { getAssistRank, getGoalRank } from '../api/index';
+import { getAssistRank, getGoalRank } from '../../api/index';
 
 export default {
 	name: 'PersonalRanking',

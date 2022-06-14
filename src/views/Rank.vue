@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import TeamRank from './TeamRank.vue';
-import PersonalRank from './PersonalRank.vue';
+import TeamRank from '../components/Rank/RankTeam.vue';
+import PersonalRank from '../components/Rank/RankPersonal.vue';
 
 export default {
 	name: 'RankPage',

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Container from './components/Container.vue';
+import Container from './views/Container.vue';
 
 export default {
 	name: 'App',

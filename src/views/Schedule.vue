@@ -1,75 +1,21 @@
 <template>
-	<div>
+	<div class="schedule-wrapper">
 		<div class="board-season flex mt-2 mb-2">
 			<button @click="setMonth(this.month - 1)">&lt;</button>
 			<p style="padding-top: 2px">{{ this.year + '-' + this.month }}</p>
 			<button @click="setMonth(this.month + 1)">&gt;</button>
 		</div>
-
 		<div class="fixture-menu">UPCOMMING MATCHES</div>
-		<div class="fixture-next-board">
-			<div class="fixture-container" v-for="(m, i) in next" :key="i">
-				<div class="fixture-list flex">
-					<div class="fixture-team flex">
-						<img :src="m['teams']['home']['logo']" alt="" class="team-logo" />
-						<p>{{ m['teams']['home']['name'] }}</p>
-					</div>
-					<div class="fixture-board fixture-board-info flex">
-						<p class="fixture-board-date">
-							{{ new Date(m['fixture']['date']).toDateString() }}
-						</p>
-						<p>{{ m['fixture']['venue']['city'] }}</p>
-						<p class="fixture-board-venue">
-							{{ m['fixture']['venue']['name'] }}
-						</p>
-					</div>
-					<div class="fixture-team flex">
-						<img :src="m['teams']['away']['logo']" alt="" class="team-logo" />
-						<p>{{ m['teams']['away']['name'] }}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+		<ScheduleUpcomming :nextSchedule="next" />
 
 		<div class="fixture-menu mt-2">RESULTS</div>
-		<div class="fixture-result-board">
-			<div class="fixture-container" v-for="m in schedule" :key="m.fixture.id">
-				<div
-					v-if="
-						checkSameDate(new Date(m['fixture']['date']).toDateString()) &&
-						m['fixture']['status']['short'] === 'FT'
-					"
-					class="fixture-date box"
-				>
-					{{ new Date(m['fixture']['date']).toDateString() }}
-				</div>
-				<div class="fixture-list flex">
-					<div class="fixture-team flex">
-						<img :src="m['teams']['home']['logo']" alt="" class="team-logo" />
-						<p>{{ m['teams']['home']['name'] }}</p>
-					</div>
-					<div class="fixture-board fixture-board-info flex">
-						<p>{{ m['fixture']['status']['short'] }}</p>
-						<div class="flex p-1">
-							<p class="fixture-score">{{ m['score']['fulltime']['home'] }}</p>
-							<p>:</p>
-							<p class="fixture-score">{{ m['score']['fulltime']['away'] }}</p>
-						</div>
-						<p class="fixture-board-venue">
-							{{ m['fixture']['venue']['name'] }}
-						</p>
-					</div>
-					<div class="fixture-team flex">
-						<img :src="m['teams']['away']['logo']" alt="" class="team-logo" />
-						<p>{{ m['teams']['away']['name'] }}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+		<ScheduleResult :schedule="schedule" />
 	</div>
 </template>
 
 <script>
+import ScheduleUpcomming from '../components/Schedule/ScheduleUpcomming.vue';
+import ScheduleResult from '../components/Schedule/ScheduleResult.vue';
 import { getNextFixture, getMatchDuringFixture } from '../api/index';
 
 export default {
@@ -79,10 +25,13 @@ export default {
 			year: new Date().getFullYear(),
 			month: new Date().getMonth() + 1,
 			day: 31,
-			resultDate: '',
 			schedule: [],
 			next: [],
 		};
+	},
+	components: {
+		ScheduleUpcomming,
+		ScheduleResult,
 	},
 	methods: {
 		setMonth(x) {
@@ -124,15 +73,6 @@ export default {
 				return 0;
 			});
 		},
-
-		checkSameDate(x) {
-			if (this.resultDate == x) {
-				return false;
-			} else {
-				this.resultDate = x;
-				return true;
-			}
-		},
 	},
 
 	created() {
@@ -152,6 +92,9 @@ export default {
 </script>
 
 <style>
+.schedule-wrapper {
+	height: calc(100vh - 102px);
+}
 .fixture-container {
 	border-color: #00000030;
 	border-width: 0.3px 0 0 0;
@@ -195,6 +138,9 @@ export default {
 
 .fixture-board-info {
 	font-size: 13px;
+	background: #ebebeb;
+	padding: 5px;
+	border-radius: 10px;
 }
 
 .fixture-board-date {
@@ -216,6 +162,7 @@ export default {
 	border-radius: 5px;
 	color: white;
 	margin: 0 5px;
+	line-height: 33px;
 }
 .fixture-menu {
 	height: 40px;
@@ -225,15 +172,22 @@ export default {
 }
 
 .fixture-next-board {
-	max-height: 30%;
-	height: fit-content;
+	height: 30%;
 	overflow: scroll;
 }
 
 .fixture-result-board {
-	max-height: 60%;
-	height: fit-content;
-
+	height: 60%;
 	overflow: scroll;
+}
+
+.fixture-noschedule {
+	margin: 5px;
+	border: 3px dashed #38003d;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 300px;
+	font-size: 30px;
+	font-weight: bold;
 }
 </style>
