@@ -35,11 +35,11 @@
 					</th>
 				</tr>
 				<tr
-					class="board-personal"
-					v-for="(p, i) in state == 'topscorers' ? topscorers : topassists"
-					:key="i"
+					:class="`board-personal rank-${index}`"
+					v-for="(p, index) in state == 'topscorers' ? topscorers : topassists"
+					:key="index"
 				>
-					<td class="board-personal-rs">{{ i + 1 }}</td>
+					<td class="board-personal-rs">{{ index + 1 }}</td>
 					<td class="board-personal-info flex">
 						<img :src="`${p['player']['photo']}`" alt="" />
 						<div>
@@ -61,10 +61,10 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { getAssistRank, getGoalRank } from '../api/index';
 
 export default {
-	name: 'PersonalRank',
+	name: 'PersonalRanking',
 	data() {
 		return {
 			topics: ['topscorers', 'topassists'],
@@ -78,34 +78,14 @@ export default {
 	},
 	methods: {
 		getRank() {
-			this.topics.forEach(topic => {
-				var options = {
-					method: 'GET',
-					url: 'https://api-football-v1.p.rapidapi.com/v3/players/' + topic,
-					params: { league: '39', season: this.season },
-					headers: {
-						'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
-						'x-rapidapi-key':
-							'b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e',
-					},
-				};
-
-				axios
-					.request(options)
-					.then(response => {
-						if (topic == 'topscorers') {
-							this.topscorers = response.data.response.slice(0, 10);
-						} else {
-							this.topassists = response.data.response.slice(0, 10);
-						}
-					})
-					.catch(function (error) {
-						console.error(error);
-					});
+			getAssistRank(this.season).then(response => {
+				this.topassists = response;
+			});
+			getGoalRank(this.season).then(response => {
+				this.topscorers = response;
 			});
 		},
 	},
-
 	created() {
 		this.getRank();
 	},
@@ -150,5 +130,15 @@ tr th {
 .board-personal-name {
 	font-size: 17px;
 	font-weight: bold;
+}
+
+.rank-0 {
+	background: rgb(253 96 136);
+}
+.rank-1 {
+	background: rgb(255 134 165);
+}
+.rank-2 {
+	background: lightgray;
 }
 </style>

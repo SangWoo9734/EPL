@@ -33,7 +33,7 @@
 
 		<div class="fixture-menu mt-2">RESULTS</div>
 		<div class="fixture-result-board">
-			<div class="fixture-container" v-for="(m, i) in schedule" :key="i">
+			<div class="fixture-container" v-for="m in schedule" :key="m.fixture.id">
 				<div
 					v-if="
 						checkSameDate(new Date(m['fixture']['date']).toDateString()) &&
@@ -70,7 +70,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { getNextFixture, getMatchDuringFixture } from '../api/index';
+
 export default {
 	name: 'ScheduleInfo',
 	data() {
@@ -102,61 +103,15 @@ export default {
 				else this.day = 28;
 			else this.day = 30;
 
-			var options = {
-				method: 'GET',
-				url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
-				params: {
-					league: '39',
-					season: this.month <= 6 ? this.year - 1 : this.year,
-					from:
-						this.month > 10
-							? this.year + '-' + this.month + '-01'
-							: this.year + '-0' + this.month + '-01',
-					to:
-						this.month > 10
-							? this.year + '-' + this.month + '-01'
-							: this.year + '-0' + this.month + '-' + this.day,
-				},
-				headers: {
-					'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
-					'x-rapidapi-key':
-						'b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e',
-				},
-			};
-
-			axios
-				.request(options)
-				.then(response => {
-					response.data.response.forEach(item => {
-						if (item.fixture.status.short == 'FT')
-							return this.schedule.push(item);
-					});
-					this.sortSchedule();
-				})
-				.catch(function (error) {
-					console.error(error);
+			getMatchDuringFixture(this.day, this.month, this.year).then(response => {
+				this.schedule = response.map(item => {
+					if (item.fixture.status.short == 'FT') {
+						return item;
+					}
 				});
-		},
-		setNextMatch() {
-			var options = {
-				method: 'GET',
-				url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
-				params: { league: '39', next: '10' },
-				headers: {
-					'x-rapidapi-host': 'api-football-v1.p.rapidapi.com',
-					'x-rapidapi-key':
-						'b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e',
-				},
-			};
 
-			axios
-				.request(options)
-				.then(response => {
-					this.next = response.data.response;
-				})
-				.catch(function (error) {
-					console.error(error);
-				});
+				this.sortSchedule();
+			});
 		},
 		sortSchedule() {
 			this.schedule.sort(function (a, b) {
@@ -181,8 +136,11 @@ export default {
 	},
 
 	created() {
+		getNextFixture().then(response => {
+			this.next = response;
+		});
+
 		this.setSchedule();
-		this.setNextMatch();
 	},
 
 	watch: {
@@ -267,12 +225,15 @@ export default {
 }
 
 .fixture-next-board {
-	height: 200px;
+	max-height: 30%;
+	height: fit-content;
 	overflow: scroll;
 }
 
 .fixture-result-board {
-	height: 465px;
+	max-height: 60%;
+	height: fit-content;
+
 	overflow: scroll;
 }
 </style>

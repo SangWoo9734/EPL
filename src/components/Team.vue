@@ -132,8 +132,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import teamPlayer from '../assets/data/final.json';
+import teamPlayer from '../assets/data/team_data.json';
+import { getTeamInfo } from '../api/index';
 
 export default {
 	name: 'TeamInfo',
@@ -149,40 +149,6 @@ export default {
 		};
 	},
 	methods: {
-		setData() {
-			var options = {
-				method: 'GET',
-				url: 'https://api-football-beta.p.rapidapi.com/teams/statistics',
-				params: { team: this.detail, season: '2021', league: '39' },
-				headers: {
-					'x-rapidapi-host': 'api-football-beta.p.rapidapi.com',
-					'x-rapidapi-key':
-						'b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e',
-				},
-			};
-
-			axios
-				.request(options)
-				.then(response => {
-					let result = response.data.response;
-					this.form = result.form.split('').reverse().slice(0, 10);
-					this.lineups = result.lineups;
-					this.fixtures = [
-						result.fixtures.played.total,
-						result.fixtures.wins.total,
-						result.fixtures.draws.total,
-						result.fixtures.loses.total,
-					];
-					this.cleanSheet = result.clean_sheet.total;
-					this.goals = [
-						result.goals.for.total.total,
-						result.goals.against.total.total,
-					];
-				})
-				.catch(function (error) {
-					console.error(error);
-				});
-		},
 		wdl(x) {
 			if (x == 'W') {
 				return '#13CF00';
@@ -200,7 +166,21 @@ export default {
 		},
 	},
 	created() {
-		this.setData();
+		getTeamInfo(this.detail).then(response => {
+			this.form = response.form.split('').reverse().slice(0, 10);
+			this.lineups = response.lineups;
+			this.fixtures = [
+				response.fixtures.played.total,
+				response.fixtures.wins.total,
+				response.fixtures.draws.total,
+				response.fixtures.loses.total,
+			];
+			this.cleanSheet = response.clean_sheet.total;
+			this.goals = [
+				response.goals.for.total.total,
+				response.goals.against.total.total,
+			];
+		});
 	},
 };
 </script>

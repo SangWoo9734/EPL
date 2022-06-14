@@ -1,11 +1,9 @@
 <template>
 	<div>
 		<div class="board-season flex mt-2 mb-2">
-			<button @click="this.season -= 1">&lt;</button>
-			<p style="padding-top: 2px">
-				{{ this.season }} - {{ (this.season % 100) + 1 }}
-			</p>
-			<button @click="this.season += 1">&gt;</button>
+			<button @click="season -= 1">&lt;</button>
+			<p style="padding-top: 2px">{{ season }} - {{ (season % 100) + 1 }}</p>
+			<button @click="season += 1">&gt;</button>
 		</div>
 
 		<div class="board-team board-stand box pl-2 pr-2 flex">
@@ -19,7 +17,7 @@
 			class="accordion accordion-flush board-team box"
 			id="accordionFlushExample"
 		>
-			<div class="accordion-item" v-for="(r, i) in data" :key="i">
+			<div class="accordion-item" v-for="(r, index) in boardData" :key="index">
 				<h2 class="accordion-header" :id="`flush-heading-${r['rank']}`">
 					<button
 						class="accordion-button collapsed board-team-info"
@@ -90,38 +88,17 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { getTeamRanking } from '../api/index';
 
 export default {
-	name: 'RankTable',
+	name: 'TeamRank',
 	data() {
 		return {
-			data: [],
+			boardData: [],
 			season: 2021,
 		};
 	},
 	methods: {
-		getBoard() {
-			let options = {
-				method: 'GET',
-				url: 'https://api-football-beta.p.rapidapi.com/standings',
-				params: { season: this.season, league: '39' },
-				headers: {
-					'x-rapidapi-host': 'api-football-beta.p.rapidapi.com',
-					'x-rapidapi-key':
-						'b23476661dmsh02ee8d31c01bd7fp1b63acjsn46e7e2914a5e',
-				},
-			};
-
-			axios
-				.request(options)
-				.then(response => {
-					this.data = response.data.response[0].league.standings[0];
-				})
-				.catch(function (error) {
-					console.error(error);
-				});
-		},
 		wdl(x) {
 			if (x == 'W') {
 				return '#13CF00';
@@ -133,11 +110,16 @@ export default {
 		},
 	},
 	created() {
-		this.getBoard();
+		getTeamRanking(this.season).then(response => {
+			this.boardData = response;
+			console.log(this.boardData);
+		});
 	},
 	watch: {
 		season: function () {
-			this.getBoard();
+			getTeamRanking(this.season).then(response => {
+				this.boardData = response;
+			});
 		},
 	},
 };

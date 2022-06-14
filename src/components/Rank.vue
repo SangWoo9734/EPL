@@ -2,28 +2,28 @@
 	<div>
 		<div class="menu">
 			<div
-				@click="state = 0"
+				@click="() => (state = false)"
 				class="board-menu"
 				:style="state == 0 ? this.btnDesign : null"
 			>
 				TEAM
 			</div>
 			<div
-				@click="state = 1"
+				@click="() => (state = true)"
 				class="board-menu"
 				:style="state == 1 ? this.btnDesign : null"
 			>
 				PLAYER
 			</div>
 		</div>
-		<TeamRank v-if="state == 0" />
-		<PersonalRank v-if="state == 1" />
+		<TeamRank v-if="!state" />
+		<PersonalRank v-else />
 	</div>
 </template>
 
 <script>
 import TeamRank from './TeamRank.vue';
-import PersonalRank from './Personalrank.vue';
+import PersonalRank from './PersonalRank.vue';
 
 export default {
 	name: 'RankPage',
@@ -31,12 +31,12 @@ export default {
 		return {
 			btnDesign:
 				'font-weight:Bold; border-bottom:3px; border-bottom-style:solid; border-bottom-color:rgb(230, 0, 91);border-radius: 5px;',
-			state: 0,
+			state: false,
 		};
 	},
 	components: {
-		TeamRank: TeamRank,
-		PersonalRank: PersonalRank,
+		TeamRank,
+		PersonalRank,
 	},
 };
 </script>
