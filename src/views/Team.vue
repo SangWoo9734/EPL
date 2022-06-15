@@ -31,7 +31,7 @@
 				/>
 				<TeamRecent :recentResult="recentResult" />
 				<TeamFormation :formationInfo="formationInfo" />
-				<TeamPlayer :teamId="teamId" />
+				<TeamPlayer :teamPlayer="team[teamId]" />
 			</div>
 		</div>
 	</div>
@@ -71,27 +71,35 @@ export default {
 		setTeamId(teamId) {
 			this.teamId = teamId;
 		},
+		requestTeamInfo() {
+			getTeamInfo(this.teamId).then(response => {
+				this.recentResult = response.form
+					.split('')
+					.reverse()
+					.slice(0, 10)
+					.join('');
+				this.formationInfo = response.lineups;
+				this.fixtures = [
+					response.fixtures.played.total,
+					response.fixtures.wins.total,
+					response.fixtures.draws.total,
+					response.fixtures.loses.total,
+				];
+				this.cleanSheet = response.clean_sheet.total;
+				this.goals = [
+					response.goals.for.total.total,
+					response.goals.against.total.total,
+				];
+			});
+		},
 	},
 	created() {
-		getTeamInfo(this.teamId).then(response => {
-			this.recentResult = response.form
-				.split('')
-				.reverse()
-				.slice(0, 10)
-				.join('');
-			this.formationInfo = response.lineups;
-			this.fixtures = [
-				response.fixtures.played.total,
-				response.fixtures.wins.total,
-				response.fixtures.draws.total,
-				response.fixtures.loses.total,
-			];
-			this.cleanSheet = response.clean_sheet.total;
-			this.goals = [
-				response.goals.for.total.total,
-				response.goals.against.total.total,
-			];
-		});
+		this.requestTeamInfo();
+	},
+	watch: {
+		teamId: function () {
+			this.requestTeamInfo();
+		},
 	},
 };
 </script>

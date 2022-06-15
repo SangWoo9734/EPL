@@ -4,7 +4,7 @@
 		<div class="accordion accordion-flush" id="accordionFlushExample">
 			<div
 				class="accordion-item pl-3"
-				v-for="(position, index) in Object.keys(teamData.squad)"
+				v-for="(position, index) in Object.keys(teamPlayer.squad)"
 				:key="position"
 			>
 				<h2 class="accordion-header" :id="`flush-heading-${index}`">
@@ -29,7 +29,7 @@
 					<div class="accordion-body p-0">
 						<div
 							class="team-player-detail flex box"
-							v-for="(player, j) in teamData.squad[position]"
+							v-for="(player, j) in teamPlayer.squad[position]"
 							:key="j"
 						>
 							<div class="team-player-number">
@@ -53,17 +53,10 @@
 </template>
 
 <script>
-import teamStatic from '../../assets/data/team_data.json';
-
 export default {
 	name: 'TeamPlayer',
 	props: {
-		teamId: { type: Number, default: 0 },
-	},
-	data() {
-		return {
-			teamData: teamStatic[this.teamId],
-		};
+		teamPlayer: { type: Object, default: null },
 	},
 	methods: {
 		positionColor(x) {
