@@ -1,6 +1,6 @@
 <template>
 	<div class="schedule-wrapper">
-		<div class="board-season flex mt-2 mb-2">
+		<div class="board-season flex pt-2 pb-2">
 			<button @click="setMonth(this.month - 1)">&lt;</button>
 			<p style="padding-top: 2px">{{ this.year + '-' + this.month }}</p>
 			<button @click="setMonth(this.month + 1)">&gt;</button>
@@ -8,7 +8,7 @@
 		<div class="fixture-menu">UPCOMMING MATCHES</div>
 		<ScheduleUpcomming :nextSchedule="next" />
 
-		<div class="fixture-menu mt-2">RESULTS</div>
+		<div class="fixture-menu">RESULTS</div>
 		<ScheduleResult :schedule="schedule" />
 	</div>
 </template>
@@ -93,7 +93,7 @@ export default {
 
 <style>
 .schedule-wrapper {
-	height: calc(100vh - 102px);
+	height: calc(100% - 45px);
 }
 .fixture-container {
 	border-color: #00000030;
@@ -172,16 +172,20 @@ export default {
 }
 
 .fixture-next-board {
-	height: 30%;
+	height: calc(30% - 40px);
 	overflow: scroll;
 }
 
 .fixture-result-board {
-	height: 60%;
+	height: calc(70% - 93px);
 	overflow: scroll;
 }
 
 .fixture-noschedule {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: calc(100% - 10px);
 	margin: 5px;
 	border: 3px dashed #38003d;
 	border-radius: 5px;

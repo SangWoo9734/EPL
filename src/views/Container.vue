@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="outer-container">
 		<div class="menu">
 			<div
 				@click="display = 1"
@@ -53,4 +53,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.outer-container {
+	height: calc(100vh - 50px);
+}
+</style>

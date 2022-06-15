@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div v-else class="fixture-noschedule">
-			<p>See you next season</p>
+			<p>No Schedule.</p>
 		</div>
 	</div>
 </template>
