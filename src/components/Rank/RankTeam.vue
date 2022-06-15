@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div claass="board-rank-team">
 		<div class="board-season flex mt-2 mb-2">
 			<button @click="season -= 1">&lt;</button>
 			<p style="padding-top: 2px">{{ season }} - {{ (season % 100) + 1 }}</p>
@@ -14,6 +14,7 @@
 		</div>
 
 		<div
+			v-if="!loading"
 			class="accordion accordion-flush board-team box"
 			id="accordionFlushExample"
 		>
@@ -84,10 +85,13 @@
 				</div>
 			</div>
 		</div>
+
+		<Loading v-else />
 	</div>
 </template>
 
 <script>
+import Loading from '../Loading.vue';
 import { getTeamRanking } from '../../api/index';
 
 export default {
@@ -96,7 +100,11 @@ export default {
 		return {
 			boardData: [],
 			season: 2021,
+			loading: false,
 		};
+	},
+	components: {
+		Loading,
 	},
 	methods: {
 		wdl(x) {
@@ -109,8 +117,10 @@ export default {
 			}
 		},
 		getRankingInfo() {
+			this.loading = true;
 			getTeamRanking(this.season).then(response => {
 				this.boardData = response[0];
+				this.loading = false;
 			});
 		},
 	},
@@ -126,6 +136,9 @@ export default {
 </script>
 
 <style>
+.board-rank-team {
+	height: 100%;
+}
 p {
 	margin: 0;
 }

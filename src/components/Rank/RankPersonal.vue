@@ -25,7 +25,7 @@
 			</div>
 		</div>
 
-		<div>
+		<div v-if="!loading">
 			<table style="width: 100%">
 				<tr style="font-size: 17px">
 					<th style="width: 15%">#</th>
@@ -57,10 +57,14 @@
 				</tr>
 			</table>
 		</div>
+
+		<Loading v-else />
 	</div>
 </template>
 
 <script>
+import Loading from '../Loading.vue';
+
 import { getAssistRank, getGoalRank } from '../../api/index';
 
 export default {
@@ -74,15 +78,21 @@ export default {
 			btnDesign:
 				'font-weight:Bold; border-bottom:3px; border-bottom-style:solid; border-bottom-color:rgb(230, 0, 91);border-radius: 5px;',
 			season: 2021,
+			loading: false,
 		};
+	},
+	components: {
+		Loading,
 	},
 	methods: {
 		getRank() {
+			this.loading = true;
 			getAssistRank(this.season).then(response => {
 				this.topassists = response;
 			});
 			getGoalRank(this.season).then(response => {
 				this.topscorers = response;
+				this.loading = false;
 			});
 		},
 	},
