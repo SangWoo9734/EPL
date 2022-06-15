@@ -108,17 +108,18 @@ export default {
 				return '#76766F';
 			}
 		},
+		getRankingInfo() {
+			getTeamRanking(this.season).then(response => {
+				this.boardData = response[0];
+			});
+		},
 	},
 	created() {
-		getTeamRanking(this.season).then(response => {
-			this.boardData = response;
-		});
+		this.getRankingInfo();
 	},
 	watch: {
 		season: function () {
-			getTeamRanking(this.season).then(response => {
-				this.boardData = response;
-			});
+			this.getRankingInfo();
 		},
 	},
 };
