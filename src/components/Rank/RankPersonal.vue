@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="board-rank-personal">
 		<div class="board-season flex mt-2 mb-2">
 			<button @click="this.season = this.season - 1">&lt;</button>
 			<p style="padding-top: 2px">
@@ -25,7 +25,7 @@
 			</div>
 		</div>
 
-		<div v-if="!loading">
+		<div v-if="!loading" class="board-personal-rank">
 			<table style="width: 100%">
 				<tr style="font-size: 17px">
 					<th style="width: 15%">#</th>
@@ -111,6 +111,9 @@ export default {
 tr th {
 	padding: 5px 15px;
 }
+.board-rank-personal {
+	height: calc(100% - 50px);
+}
 .board-personal {
 	font-size: 15px;
 }
@@ -118,7 +121,10 @@ tr th {
 .board-personal-rs {
 	width: 10%;
 }
-
+.board-personal-rank {
+	height: calc(100% - 77px);
+	overflow: auto;
+}
 .board-personal-info {
 	margin: 0px;
 	padding: 5px;

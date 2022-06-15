@@ -1,5 +1,5 @@
 <template>
-	<div claass="board-rank-team">
+	<div class="board-rank-team">
 		<div class="board-season flex mt-2 mb-2">
 			<button @click="season -= 1">&lt;</button>
 			<p style="padding-top: 2px">{{ season }} - {{ (season % 100) + 1 }}</p>
@@ -136,9 +136,6 @@ export default {
 </script>
 
 <style>
-.board-rank-team {
-	height: 100%;
-}
 p {
 	margin: 0;
 }
@@ -151,6 +148,9 @@ tr {
 	text-align: center;
 	width: 100%;
 	height: 36px;
+}
+.board-rank-team {
+	height: calc(100% - 50px);
 }
 .flex {
 	display: flex;
@@ -182,8 +182,8 @@ tr {
 	border-style: solid;
 }
 .board-team {
-	width: 100%;
-	padding: 0 5px;
+	height: calc(100% - 77px);
+	overflow: auto;
 }
 
 .board-team-info {

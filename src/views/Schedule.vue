@@ -191,7 +191,6 @@ export default {
 	border: 3px dashed #38003d;
 	border-radius: 5px;
 	text-align: center;
-	line-height: 300px;
 	font-size: 30px;
 	font-weight: bold;
 }

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="view-wrapper">
 		<div class="menu">
 			<div
 				@click="() => (state = false)"
@@ -42,6 +42,10 @@ export default {
 </script>
 
 <style>
+.view-wrapper {
+	height: calc(100% - 45px);
+	overflow: auto;
+}
 .board-menu {
 	width: 49.5%;
 	text-align: center;
