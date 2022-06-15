@@ -1,5 +1,5 @@
 <template>
-	<div class="schedule-wrapper">
+	<div class="view-wrapper">
 		<div class="board-season flex pt-2 pb-2">
 			<button @click="setMonth(this.month - 1)">&lt;</button>
 			<p style="padding-top: 2px">{{ this.year + '-' + this.month }}</p>
@@ -92,8 +92,9 @@ export default {
 </script>
 
 <style>
-.schedule-wrapper {
+.view-wrapper {
 	height: calc(100% - 45px);
+	overflow: auto;
 }
 .fixture-container {
 	border-color: #00000030;

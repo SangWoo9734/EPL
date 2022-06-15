@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="view-wrapper">
 		<TeamList @setTeamId="setTeamId" />
 
 		<div class="team-info">
@@ -105,6 +105,10 @@ export default {
 </script>
 
 <style>
+.view-wrapper {
+	height: calc(100% - 45px);
+	overflow: auto;
+}
 ::-webkit-scrollbar {
 	display: none;
 }
