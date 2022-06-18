@@ -19,7 +19,7 @@ import ScheduleResult from '../components/Schedule/ScheduleResult.vue';
 import { getNextFixture, getMatchDuringFixture } from '../api/index';
 
 export default {
-	name: 'ScheduleInfo',
+	name: 'SchedulePage',
 	data() {
 		return {
 			year: new Date().getFullYear(),
