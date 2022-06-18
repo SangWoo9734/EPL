@@ -36,20 +36,22 @@
 				</tr>
 				<tr
 					:class="`board-personal rank-${index}`"
-					v-for="(p, index) in state == 'topscorers' ? topscorers : topassists"
+					v-for="(player, index) in state == 'topscorers'
+						? topscorers
+						: topassists"
 					:key="index"
 				>
 					<td class="board-personal-rs">{{ index + 1 }}</td>
 					<td class="board-personal-info flex">
-						<img :src="`${p['player']['photo']}`" alt="" />
+						<img :src="`${player['player']['photo']}`" alt="" />
 						<div>
-							<p class="board-personal-name">{{ p['player']['name'] }}</p>
-							<p>{{ p['statistics'][0]['team']['name'] }}</p>
+							<p class="board-personal-name">{{ player['player']['name'] }}</p>
+							<p>{{ player['statistics'][0]['team']['name'] }}</p>
 						</div>
 					</td>
 					<td class="board-personal-rs">
 						{{
-							p['statistics'][0]['goals'][
+							player['statistics'][0]['goals'][
 								state == 'topscorers' ? 'total' : 'assists'
 							]
 						}}

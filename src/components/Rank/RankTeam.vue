@@ -18,36 +18,40 @@
 			class="accordion accordion-flush board-team box"
 			id="accordionFlushExample"
 		>
-			<div class="accordion-item" v-for="(r, index) in boardData" :key="index">
-				<h2 class="accordion-header" :id="`flush-heading-${r['rank']}`">
+			<div
+				class="accordion-item"
+				v-for="(result, index) in boardData"
+				:key="index"
+			>
+				<h2 class="accordion-header" :id="`flush-heading-${result['rank']}`">
 					<button
 						class="accordion-button collapsed board-team-info"
 						type="button"
 						data-bs-toggle="collapse"
-						:data-bs-target="`#flush-collapse-${r['rank']}`"
+						:data-bs-target="`#flush-collapse-${result['rank']}`"
 						aria-expanded="false"
-						:aria-controls="`flush-collapse-${r['rank']}`"
+						:aria-controls="`flush-collapse-${result['rank']}`"
 					>
 						<p class="text-center" style="width: 15%; font-weight: bold">
-							{{ r['rank'] }}
+							{{ result['rank'] }}
 						</p>
 						<div class="flex" style="width: 55%">
-							<img :src="r['team']['logo']" alt="" />
-							<p style="font-weight: bold">{{ r['team']['name'] }}</p>
+							<img :src="result['team']['logo']" alt="" />
+							<p style="font-weight: bold">{{ result['team']['name'] }}</p>
 						</div>
 						<p class="text-center" style="width: 15%">
-							{{ r['all']['played'] }}
+							{{ result['all']['played'] }}
 						</p>
 						<p class="text-center" style="width: 15%; font-weight: bold">
-							{{ r['points'] }}
+							{{ result['points'] }}
 							<span style="color: gray; font-size: 13px">pts</span>
 						</p>
 					</button>
 				</h2>
 				<div
-					:id="`flush-collapse-${r['rank']}`"
+					:id="`flush-collapse-${result['rank']}`"
 					class="accordion-collapse collapse"
-					:aria-labelledby="`flush-heading-${r['rank']}`"
+					:aria-labelledby="`flush-heading-${result['rank']}`"
 					data-bs-parent="#accordionFlushExample"
 				>
 					<table class="accordion-body">
@@ -62,22 +66,25 @@
 							<th>Recent 5</th>
 						</tr>
 						<tr>
-							<td>{{ r['all']['played'] }}</td>
-							<td>{{ r['all']['win'] }}</td>
-							<td>{{ r['all']['draw'] }}</td>
-							<td>{{ r['all']['lose'] }}</td>
-							<td>{{ r['all']['goals']['for'] }}</td>
-							<td>{{ r['all']['goals']['against'] }}</td>
+							<td>{{ result['all']['played'] }}</td>
+							<td>{{ result['all']['win'] }}</td>
+							<td>{{ result['all']['draw'] }}</td>
+							<td>{{ result['all']['lose'] }}</td>
+							<td>{{ result['all']['goals']['for'] }}</td>
+							<td>{{ result['all']['goals']['against'] }}</td>
 							<td>
-								{{ r['all']['goals']['for'] - r['all']['goals']['against'] }}
+								{{
+									result['all']['goals']['for'] -
+									result['all']['goals']['against']
+								}}
 							</td>
 							<td class="recent-five flex">
 								<p
-									v-for="(p, i) in r['form']"
-									:key="i"
-									:style="`background:${wdl(p)}`"
+									v-for="formation in result['form']"
+									:key="formation"
+									:style="`background:${wdl(formation)}`"
 								>
-									{{ p }}
+									{{ formation }}
 								</p>
 							</td>
 						</tr>
