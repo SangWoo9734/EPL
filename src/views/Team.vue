@@ -3,26 +3,7 @@
 		<TeamList @setTeamId="setTeamId" />
 
 		<div class="team-info">
-			<div
-				class="team-detail"
-				:style="`background-image : url(${team[teamId]['team']['ven_image']})`"
-			>
-				<div class="team-detail-blur flex">
-					<div class="team-detail-image">
-						<img :src="`${team[teamId]['team']['logo']}`" alt="" class="" />
-					</div>
-					<div class="team-detail-text text-center">
-						<p class="team-name">{{ team[teamId]['team']['name'] }}</p>
-						<p>Founded - {{ team[teamId]['team']['founded'] }}</p>
-						<br />
-						<p>
-							{{ team[teamId]['team']['ven_name'] }} /
-							{{ team[teamId]['team']['ven_city'] }}
-						</p>
-						<p>Capacity - {{ team[teamId]['team']['capacity'] }} seats</p>
-					</div>
-				</div>
-			</div>
+			<TeamInfo :teamDetail="team[teamId].team" />
 			<div class="team-recent">
 				<TeamStatus
 					:fixtures="fixtures"
@@ -39,6 +20,7 @@
 
 <script>
 import TeamList from '../components/Team/TeamList.vue';
+import TeamInfo from '../components/Team/TeamInfo.vue';
 import TeamStatus from '../components/Team/TeamStatus.vue';
 import TeamFormation from '../components/Team/TeamFormation.vue';
 import TeamRecent from '../components/Team/TeamRecent.vue';
@@ -48,7 +30,7 @@ import teamStatic from '../assets/data/team_data.json';
 import { getTeamInfo } from '../api/index';
 
 export default {
-	name: 'TeamInfo',
+	name: 'TeamPage',
 	data() {
 		return {
 			teamId: 33,
@@ -62,6 +44,7 @@ export default {
 	},
 	components: {
 		TeamList,
+		TeamInfo,
 		TeamStatus,
 		TeamFormation,
 		TeamRecent,
