@@ -35,15 +35,47 @@ Vue JS 온라인 강의를 수강하고 배운 것을 바탕으로 제작한 잉
 
 그 당시 신경 쓰지 않았던 몇 가지 부분에 대해서 개선사항으로 정의하고 적용시켜 나가기로 했다.
 
-- ESLint & Prettier 적용 / 변수명 수정
+- ESLint & Prettier 적용 / 변수명 수정  
+    - 
     - 기존에 무질서하게 작성했던 코드에 가독성과 통일성을 부여하기 위해서, ESlint와 Prettier를 사용했다.
     - 추가로 코드 내에 존재하는 의미를 알 수 없는 변수명 'm', 'r'과 같은 변수는 모두 의미가 있는 'match', 'result'로 변경해주었다.
-- API 파일 분리
+- API
     -
     API가 Page내에서 각각 메소드로 사용되고 있었고, header, base url 뿐만아니라  API Key까지 그대로 사용하는 짓을 해놓았었다…
     
     - API 디렉토리를 따로 제작하여 모든 API 요청을 한 곳에서 관리하도록 분리해주었다.
     - .env 환경변수 파일을 추가해서 API KEY, BASE URL를 숨겨 외부에 노출되지 않도록 해주었다.
+    - 기존 페이지 전환시 필요한 데이터를 모두 다시 불러오도록 되어있었다. 사용하는 데이터가 빠르게 변하는 데이터가 아니라고 생각했고, 그래서 데이터를 짧은 주기로 여러번 호출할 필요가 없다는 생각을 하게 되었다. 각 페이지 진입시 API 요청으로 받아온 데이터를 sessionStorage에 저장하고, 다른 페이지로 이동 후 재방문하게 되면 sessionStorage를 확인하여 데이터 호출 기록이 있다면 sessionStorage에 있는 데이터를 활용하도록 하였다.
+  ``` JS
+      // 다음 경기 일정 데이터 요청
+    const getNextFixture = async () => {
+      if (sessionStorage.getItem('matchScheduleData')) {
+        const savedData = JSON.parse(sessionStorage.getItem('matchScheduleData'));
+        return savedData;
+      }
+      return await axios
+        .get(process.env.VUE_APP_API_BASE_URL + '/fixtures', {
+          params: { league: '39', next: '10' },
+          headers: ORIGINAL_HEADERS,
+        })
+        .then(response => {
+          const matchScheduleData = response.data.response;
+          sessionStorage.setItem(
+            'matchScheduleData',
+            JSON.stringify(matchScheduleData),
+          );
+          return response.data.response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+  ```
+  
+  ***sessionStorage를 쓴 이유***  
+  사용자의 정보가 드러나는 데이터가 없기 때문에 사용하기 쉬운 sessionStorage나 localStorage를 사용하는 것을 선택했다.
+  그리고 내가 만든 페이지의 특성상 서비스를 이용하는 시간이 그렇게 길지 않다고 생각을 해서 사용자가 새 브라우저로 서비스에 들어올 때만 새로운 데이터를 받아오게 한다면 데이터의 최신화 부분과 불필요한 API요청 횟수 문제를 동시에 해결할 수 있다고 판단해서 sessionStorage를 사용하게 되었다.  
+  
 - 디렉토리 구조화 / 파일명 변경
     -
     - 기존 프로젝트의 디렉토리를 보았을 때, 불필요한 파일이 남아있는 경우도 있었고, 파일명이 모호해서 어떤 기능을 하는 파일인지 다소 명확하게 인지하기 힘들었다.
